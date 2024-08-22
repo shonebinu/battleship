@@ -32,4 +32,16 @@ describe("Ship class", () => {
 
     expect(ship.hit()).toBe(false);
   });
+
+  test("hits should be updated correctly", () => {
+    ship.hit();
+    expect(ship.hits).toBe(1);
+
+    ship.hit();
+    expect(ship.hits).toBe(2);
+  });
+
+  test("length should be set correctly", () => {
+    expect(ship.length).toBe(3);
+  });
 });

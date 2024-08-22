@@ -12,12 +12,19 @@ class Ship {
       this.#hits++;
       return true;
     }
-
     return false;
   }
 
   isSunk() {
     return this.#hits >= this.#length;
+  }
+
+  get hits() {
+    return this.#hits;
+  }
+
+  get length() {
+    return this.#length;
   }
 }
 
