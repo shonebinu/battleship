@@ -3,6 +3,8 @@ class Ship {
   #hits;
 
   constructor(length) {
+    if (length <= 0) throw new Error("Length of the Ship should be at-least 1");
+
     this.#length = length;
     this.#hits = 0;
   }
