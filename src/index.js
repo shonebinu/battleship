@@ -1,4 +1,6 @@
-import { init } from "./game-controller";
+import { Game } from "./game";
 import "./styles.css";
 
-init();
+document.addEventListener("DOMContentLoaded", () => {
+  new Game();
+});
