@@ -1,8 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap");
 
 :root {
-  --bg: #1e3a8a;
-  --fg: #e5e5e5;
+  --bg: #e5e5e5;
+  --fg: #171717;
   --ship-color: #c084fc;
   --hit-color: #059669;
   --miss-color: #ef4444;

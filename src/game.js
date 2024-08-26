@@ -93,15 +93,14 @@ class Game {
     const gameboard = player.getGameboard();
 
     boxes.forEach((box) => {
-      box.addEventListener("click", () => {
-        if (this.lastPlayer !== player) return;
+      const boxClass = box.getAttribute("class")?.split(" ") ?? [];
+      if (boxClass && !boxClass.includes("hit") && !boxClass.includes("miss")) {
+        box.addEventListener("click", () => {
+          if (this.lastPlayer !== player) return;
 
-        const boxClass = box.getAttribute("class");
-        if (boxClass && boxClass !== "ship") {
-          window.alert("This block has been already targeted once.");
-        }
-        this.handleAttack(box, gameboard, player);
-      });
+          this.handleAttack(box, gameboard, player);
+        });
+      }
     });
   }
 
