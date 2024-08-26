@@ -1,0 +1,91 @@
+@import url("https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap");
+
+:root {
+  --bg: #1e3a8a;
+  --fg: white;
+  --ship-color: #c084fc;
+  --hit-color: #059669;
+  --miss-color: #ef4444;
+  --hover-color: #fbbf24;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: "Rubik";
+  padding: 1rem;
+}
+
+h1 {
+  letter-spacing: 1.5px;
+  text-align: center;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  padding-top: 3rem;
+}
+
+div[class="board"] {
+  border: 1px dashed var(--fg);
+  cursor: pointer;
+
+  > div {
+    display: flex;
+  }
+
+  div[data-x] {
+    width: 3rem;
+    aspect-ratio: 1;
+    border: 1px dashed var(--fg);
+
+    &:hover {
+      background: var(--hover-color);
+    }
+  }
+}
+
+.ship {
+  background: var(--ship-color);
+}
+
+.miss {
+  position: relative;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 50%;
+    height: 4px;
+    background-color: var(--miss-color);
+  }
+
+  &::before {
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+
+  &::after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+  }
+}
+
+.hit {
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 30%;
+    height: 30%;
+    background-color: var(--hit-color);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+  }
+}

@@ -1,6 +1,6 @@
 import { Ship } from "../src/modules/ship";
 
-describe("Test Ship Class", () => {
+describe("Ship", () => {
   let ship;
   let length;
 
