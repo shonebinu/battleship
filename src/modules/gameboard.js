@@ -1,7 +1,14 @@
 class Gameboard {
   #ships = [];
-  #missedShots = [];
-  #scoredShots = new Map();
+  #shots = [];
+
+  get ships() {
+    return this.#ships;
+  }
+
+  get shots() {
+    return this.#shots;
+  }
 
   placeShip(ship, coordinates) {
     if (ship.length !== coordinates.length)
@@ -28,6 +35,8 @@ class Gameboard {
   }
 
   receiveAttack(coordinate) {
+    this.#shots.push(coordinate);
+
     const hitShip = this.#ships.find((shipEntry) =>
       shipEntry.coordinates.some(
         (coord) => coord[0] === coordinate[0] && coord[1] === coordinate[1],
@@ -36,14 +45,9 @@ class Gameboard {
 
     if (hitShip) {
       hitShip.ship.hit();
-      this.#scoredShots.set(hitShip.ship, [
-        ...(this.#scoredShots.get(hitShip.ship) ?? []),
-        coordinate,
-      ]);
       return true;
     }
 
-    this.#missedShots.push(coordinate);
     return false;
   }
 
@@ -51,16 +55,9 @@ class Gameboard {
     return this.#ships.every(({ ship }) => ship.isSunk());
   }
 
-  getShips() {
-    return this.#ships;
-  }
-
-  getMissedShots() {
-    return this.#missedShots;
-  }
-
-  getScoredShots() {
-    return this.#scoredShots;
+  clearBoard() {
+    this.#ships = [];
+    this.#shots = [];
   }
 }
 
