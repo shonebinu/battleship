@@ -1,0 +1,75 @@
+@import url("https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap");
+
+:root {
+  --bg: #fafafa;
+  --fg: #171717;
+  --ship: hsl(0, 0%, 80%);
+  --board: hsl(200, 100%, 50%);
+  --border: hsl(0, 0%, 100%, 0.3);
+  --shot: #fafafa;
+  --ship-shot: #ef4444;
+}
+
+body {
+  font-family: Rubik;
+  background: var(--bg);
+  color: var(--fg);
+  margin: 0;
+}
+
+main {
+  display: flex;
+  gap: 3rem;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+}
+
+section:first-child {
+  align-items: flex-end;
+}
+
+#player1,
+#player2 {
+  background: var(--board);
+  border-radius: 3px;
+
+  > div {
+    display: flex;
+  }
+}
+
+div[data-x][data-y] {
+  width: 2.5rem;
+  aspect-ratio: 1;
+  border: 1px solid var(--border);
+  cursor: pointer;
+}
+
+#player1 .ship {
+  background: var(--ship);
+}
+
+.shot {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.shot::after {
+  content: "";
+  position: absolute;
+  border-radius: 100%;
+  width: 0.9rem;
+  aspect-ratio: 1;
+  background: var(--shot);
+}
+
+.shot.ship::after {
+  background: var(--ship-shot);
+}

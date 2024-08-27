@@ -36,7 +36,7 @@ class Gameboard {
 
   receiveAttack(coordinate) {
     const isAttackedBefore = this.#shots.some(
-      ([x, y]) => coordinate[0] === x && coordinate[1] === x,
+      ([x, y]) => coordinate[0] === x && coordinate[1] === y,
     );
 
     if (isAttackedBefore) {

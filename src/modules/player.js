@@ -25,6 +25,10 @@ class Player {
     return enemyPlayer.receiveAttack(coordinates);
   }
 
+  isShipsSunk() {
+    return this.#gameboard.isShipsSunk();
+  }
+
   placeShipsRandomly(ships) {
     this.#gameboard.clearBoard();
 
