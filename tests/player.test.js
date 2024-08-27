@@ -1,5 +1,6 @@
 import { Player } from "../src/modules/player";
 import { Gameboard } from "../src/modules/gameboard";
+import { Ship } from "../src/modules/ship";
 
 describe("Player", () => {
   let player;
@@ -36,9 +37,8 @@ describe("Player", () => {
   });
 
   test("should place ships randomly on gameboard", () => {
-    const ships = [{ length: 2 }, { length: 3 }];
-    const placeShipSpy = jest.spyOn(gameboard, "placeShip");
+    const ships = [new Ship(2), new Ship(3)];
     player.placeShipsRandomly(ships);
-    expect(placeShipSpy).toHaveBeenCalledTimes(2);
+    expect(gameboard.ships.length).toBe(2);
   });
 });

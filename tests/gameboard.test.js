@@ -99,6 +99,19 @@ describe("Gameboard", () => {
     ]);
   });
 
+  test("receiveAttack() throws if same coordinate has been attacked twice", () => {
+    let ship1 = new Ship(2);
+
+    gameboard.placeShip(ship1, [
+      [0, 0],
+      [0, 1],
+    ]);
+
+    gameboard.receiveAttack([0, 0]);
+
+    expect(() => gameboard.receiveAttack([0, 0])).toThrow();
+  });
+
   test("isShipsSunk() returns true if all ships sunk", () => {
     let ship1 = new Ship(2);
     let ship2 = new Ship(1);

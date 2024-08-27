@@ -35,6 +35,14 @@ class Gameboard {
   }
 
   receiveAttack(coordinate) {
+    const isAttackedBefore = this.#shots.some(
+      ([x, y]) => coordinate[0] === x && coordinate[1] === x,
+    );
+
+    if (isAttackedBefore) {
+      throw new Error("This coordinate has been already attacked once");
+    }
+
     this.#shots.push(coordinate);
 
     const hitShip = this.#ships.find((shipEntry) =>
