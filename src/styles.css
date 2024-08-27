@@ -84,21 +84,33 @@ div[data-x][data-y] {
   justify-content: space-between;
 }
 
-.pre-game .ships {
+.pre-game .ships:has(.draggable) {
   display: flex;
-  flex-direction: column;
   gap: 1rem;
 }
 
-.pre-game .ships > div {
+.draggable {
   display: flex;
-  cursor: pointer;
+  cursor: move;
 }
 
-.pre-game .ships > div > div {
+.pre-game .ships:has(.draggable[data-orientation="horizontal"]) {
+  flex-direction: column;
+}
+
+.pre-game .ships:has(.draggable[data-orientation="vertical"]) {
+  flex-direction: row;
+
+  .draggable {
+    flex-direction: column;
+  }
+}
+
+.draggable > div {
   background: var(--ship);
   width: 2.5rem;
   aspect-ratio: 1;
+  border: 1px solid var(--border);
 }
 
 .pre-game button {
@@ -115,4 +127,13 @@ div[data-x][data-y] {
   &:hover {
     outline: 2px solid var(--fg);
   }
+}
+
+.dragover {
+  background: var(--ship);
+}
+
+.dragover.overflow,
+#player1 .ship.dragover {
+  background: var(--ship-shot);
 }

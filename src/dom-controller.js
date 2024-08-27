@@ -39,17 +39,35 @@ class DOMController {
     const container = bigContainer.querySelector(".ships");
 
     const title = document.createElement("p");
-    title.textContent = "Drag and drop the ships to your board";
+    title.innerHTML =
+      "Drag and drop the ships to your board.<br>Click on any ship on the sidebar to rotate.";
     title.classList.toggle("pre-title");
     bigContainer.appendChild(title);
 
     for (const len of lens) {
       const ship = document.createElement("div");
+      ship.classList.add("draggable");
+      ship.setAttribute("data-len", len);
+      ship.setAttribute("data-orientation", "horizontal");
+      ship.draggable = true;
       for (let i = 0; i < len; i++) {
         const box = document.createElement("div");
         ship.appendChild(box);
       }
       container.appendChild(ship);
+    }
+
+    const ships = document.querySelectorAll(".draggable");
+    for (const ship of ships) {
+      ship.addEventListener("click", () => {
+        for (const s of ships) {
+          const currentOrientation = s.getAttribute("data-orientation");
+          s.setAttribute(
+            "data-orientation",
+            currentOrientation === "horizontal" ? "vertical" : "horizontal",
+          );
+        }
+      });
     }
   }
 

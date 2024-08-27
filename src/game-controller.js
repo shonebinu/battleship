@@ -20,6 +20,7 @@ class Game {
     this.updateBoards();
 
     DOMController.drawPreGameShips([2, 3, 3, 4, 5]);
+    this.addPreGameDraggableEvents();
     DOMController.drawPreGameRandomButton();
     this.addPreGameRandomButtonAddEventListener();
   }
@@ -51,6 +52,109 @@ class Game {
     this.updateBoards();
   }
 
+  addPreGameDraggableEvents() {
+    const draggables = document.querySelectorAll(".draggable");
+    const boxes = document.querySelectorAll("div[data-x][data-y]");
+    let currentDropCoordinates = [];
+    let currentDropLength;
+
+    for (const draggable of draggables) {
+      draggable.addEventListener("dragstart", () => {
+        draggable.classList.add("dragging");
+      });
+
+      draggable.addEventListener("dragend", () => {
+        const overFlowDs = document.querySelectorAll(".overflow");
+        for (const o of overFlowDs) {
+          o.classList.remove("overflow");
+          o.classList.remove("dragover");
+        }
+
+        if (currentDropLength === currentDropCoordinates.length) {
+          const player1Gameboard = this.#player1.gameboard;
+
+          for (const [x, y] of currentDropCoordinates) {
+            const box = document.querySelector(
+              `[data-x="${x}"][data-y="${y}"]`,
+            );
+
+            if (box.classList.contains("ship")) {
+              for (const s of document.querySelectorAll(".dragover")) {
+                s.classList.remove("dragover");
+              }
+              return;
+            }
+
+            box.classList.add("ship");
+          }
+
+          player1Gameboard.placeShip(
+            new Ship(currentDropLength),
+            currentDropCoordinates,
+          );
+
+          for (const s of document.querySelectorAll(".dragover")) {
+            s.classList.remove("dragover");
+          }
+
+          document.querySelector(".dragging").remove();
+          const checkShips = document.querySelectorAll(".draggable");
+          if (checkShips.length === 0) {
+            DOMController.drawPreGameStartButton();
+            this.addPreGameStartButtonAddEventListener();
+          }
+        }
+      });
+    }
+
+    for (const box of boxes) {
+      box.addEventListener("dragover", () => {
+        const draggable = document.querySelector(".dragging");
+        if (!draggable) return;
+        const dOrientation = draggable.getAttribute("data-orientation");
+        const dLength = draggable.getAttribute("data-len");
+        const bX = +box.getAttribute("data-x");
+        const bY = +box.getAttribute("data-y");
+
+        const coordinates = [];
+        for (let i = 0; i < dLength; i++) {
+          if (dOrientation === "horizontal") {
+            const newX = bX;
+            const newY = bY + i;
+            if (newY < this.#boardSize && newY >= 0)
+              coordinates.push([newX, newY]);
+          } else {
+            const newX = bX + i;
+            const newY = bY;
+            if (newX < this.#boardSize && newX >= 0)
+              coordinates.push([newX, newY]);
+          }
+        }
+
+        for (const x of document.querySelectorAll(".dragover")) {
+          x.classList.remove("dragover");
+        }
+
+        for (const x of document.querySelectorAll(".overflow")) {
+          x.classList.remove("overflow");
+        }
+
+        for (const [x, y] of coordinates) {
+          const b = document.querySelector(`[data-x="${x}"][data-y="${y}"]`);
+          if (b && coordinates.length < dLength) {
+            b.classList.add("dragover");
+            b.classList.add("overflow");
+          } else if (b) {
+            b.classList.add("dragover");
+          }
+        }
+
+        currentDropLength = +dLength;
+        currentDropCoordinates = coordinates.slice();
+      });
+    }
+  }
+
   addPreGameRandomButtonAddEventListener() {
     const button = document.querySelector(".random");
     button.addEventListener("click", () => {
@@ -63,8 +167,8 @@ class Game {
       ]);
       this.updateBoards();
       document.querySelector(".pre-game .ships").innerHTML = "";
-      document.querySelector(".pre-game .pre-title").textContent =
-        "You can place randomly again";
+      document.querySelector(".pre-game .pre-title").innerHTML =
+        "You can place randomly again.<br> Reload the page to place manually.";
       DOMController.drawPreGameStartButton();
       this.addPreGameStartButtonAddEventListener();
     });
