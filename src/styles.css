@@ -15,14 +15,17 @@ body {
   background: var(--bg);
   color: var(--fg);
   margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 main {
   display: flex;
   gap: 3rem;
   justify-content: center;
-  align-items: center;
-  height: 100vh;
 }
 
 section {
@@ -72,4 +75,7 @@ div[data-x][data-y] {
 
 .shot.ship::after {
   background: var(--ship-shot);
+}
+
+.ships {
 }
