@@ -20,6 +20,7 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  padding: 1rem;
 }
 
 main {
@@ -136,4 +137,22 @@ div[data-x][data-y] {
 .dragover.overflow,
 #player1 .ship.dragover {
   background: var(--ship-shot);
+}
+
+@media only screen and (max-width: 768px) {
+  main {
+    flex-direction: column;
+  }
+
+  div[data-x][data-y] {
+    width: 1.5rem;
+  }
+
+  .draggable > div {
+    width: 1.5rem;
+  }
+
+  section:first-child {
+    align-items: flex-start;
+  }
 }
