@@ -26,6 +26,7 @@ main {
   display: flex;
   gap: 3rem;
   justify-content: center;
+  align-items: center;
 }
 
 section {
@@ -77,5 +78,41 @@ div[data-x][data-y] {
   background: var(--ship-shot);
 }
 
-.ships {
+.pre-game {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.pre-game .ships {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.pre-game .ships > div {
+  display: flex;
+  cursor: pointer;
+}
+
+.pre-game .ships > div > div {
+  background: var(--ship);
+  width: 2.5rem;
+  aspect-ratio: 1;
+}
+
+.pre-game button {
+  font-family: inherit;
+  font-size: 0.9rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 3px;
+  background: orange;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  margin-top: 0.5rem;
+
+  &:hover {
+    outline: 2px solid var(--fg);
+  }
 }

@@ -6,6 +6,7 @@ import { DOMController } from "./dom-controller";
 class Game {
   #player1 = {};
   #player2 = {};
+  #player1ShipsSet = false;
   #currentPlayer;
   #playerDOM = new Map();
   #boardSize = 10;
@@ -15,13 +16,27 @@ class Game {
     this.#player2 = new Player("Machine", new Gameboard());
     this.#currentPlayer = this.#player1;
 
-    this.#player1.placeShipsRandomly([
-      new Ship(2),
-      new Ship(3),
-      new Ship(3),
-      new Ship(4),
-      new Ship(5),
-    ]);
+    this.#playerDOM.set(this.#player1, document.querySelector("#player1"));
+    this.updateBoards();
+
+    DOMController.drawPreGameShips([2, 3, 3, 4, 5]);
+    DOMController.drawPreGameRandomButton();
+    this.addPreGameRandomButtonAddEventListener();
+  }
+
+  startGame() {
+    document.querySelector("main").innerHTML = `
+      <section>
+        <p class="player1-name"></p>
+        <div id="player1"></div>
+      </section>
+      <section>
+        <p class="player2-name"></p>
+        <div id="player2"></div>
+      </section>
+    `;
+    this.#player1ShipsSet = true;
+
     this.#player2.placeShipsRandomly([
       new Ship(2),
       new Ship(3),
@@ -30,10 +45,36 @@ class Game {
       new Ship(5),
     ]);
 
+    DOMController.drawName();
     this.#playerDOM.set(this.#player1, document.querySelector("#player1"));
     this.#playerDOM.set(this.#player2, document.querySelector("#player2"));
-
     this.updateBoards();
+  }
+
+  addPreGameRandomButtonAddEventListener() {
+    const button = document.querySelector(".random");
+    button.addEventListener("click", () => {
+      this.#player1.placeShipsRandomly([
+        new Ship(2),
+        new Ship(3),
+        new Ship(3),
+        new Ship(4),
+        new Ship(5),
+      ]);
+      this.updateBoards();
+      document.querySelector(".pre-game .ships").innerHTML = "";
+      document.querySelector(".pre-game .pre-title").textContent =
+        "You can place randomly again";
+      DOMController.drawPreGameStartButton();
+      this.addPreGameStartButtonAddEventListener();
+    });
+  }
+
+  addPreGameStartButtonAddEventListener() {
+    const button = document.querySelector(".pre-game .start");
+    button.addEventListener("click", () => {
+      this.startGame();
+    });
   }
 
   updateBoards() {
@@ -44,6 +85,7 @@ class Game {
         player.gameboard.ships.reduce((a, b) => a.concat(b.coordinates), []),
       );
       DOMController.drawShots(el, player.gameboard.shots);
+
       this.addBoardEventListeners(el, player);
     }
   }
